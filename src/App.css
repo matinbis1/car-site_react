@@ -1,38 +1,196 @@
-.App {
-  text-align: center;
+.how_go {
+  background-color: gray;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  position: fixed;
+  top: 0;
+  background-color: white;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: black;
+  padding: 28px;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.menu {
+  display: flex;
+  list-style: none;
+  gap: 48px;
+  text-transform: uppercase;
+  font-style: medium;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav a {
+  color: black;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #b92727;
+}
+
+.logo {
+  height: 60px;
+  width: 60px;
+}
+
+.contact-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+.reserved {
+  padding: 10px 20px;
+  text-transform: uppercase;
+  background-color: #b92727;
   color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.reserved:hover {
+  background-color: #8f1f1f;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.photo1 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.wonder {
+  text-transform: uppercase;
+  position: absolute;
+  color: rgb(255, 255, 255);
+  left: 50%;
+  top: 50%;
+  transform: translate(-70%, 300%);
+  background-color: rgba(41, 41, 41, 0.8);
+  padding: 10px;
+  font-size: 14px;
+}
+
+.uslugi_photo {
+  display: flex;
+  gap: 265px;
+  margin-top: 50px;
+}
+
+
+.photo2{
+  margin-left: 23vh;
+  border-radius: 10px;
+  height: 313px;
+  height: 313px;
+}
+
+.photo3, .photo4 {
+  border-radius: 10px;
+  height: 313px;
+  height: 313px;
+}
+
+.uslugi {
+  margin-top: 212px;
+  margin-left: 225px;
+}
+
+.uslugi_name {
+  display: flex;
+  gap: 265px;
+  margin-top: 50px;
+  font-size: medium;
+}
+
+.parkovka1 {
+  font-size: large;
+}
+
+.reserved2 {
+  padding: 10px 20px;
+  text-transform: uppercase;
+  background-color: #b92727;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 20px;
+  margin-left: 225px;
+  margin-top: 112px;
+  margin-bottom: 100px;
+}
+
+.reserved2:hover {
+  background-color: #8f1f1f;
+}
+
+.how_go {
+  position: relative;
+}
+
+.shema {
+  margin-left: 225px;
+  padding: 70px;
+}
+
+.map {
+  margin-bottom: 30px;
+}
+
+.maps_logo1 {
+  height: 100px;
+  width: 100px;
+  padding: 20px;
+  background-color: rgb(206, 206, 206);
+  margin-bottom: 20px;
+}
+
+.feedback h1 {
+  margin-top: 200px;
+  margin-left: 225px;
+}
+
+.user_photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.user_name {
+  font-weight: bold;
+}
+
+.comment_time {
+  margin-left: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.comment_box {
+  margin-left: 225px;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.user_info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
