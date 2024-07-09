@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker'; // Импортируем компонент выбора даты
-import 'react-datepicker/dist/react-datepicker.css'; // Импортируем стили для компонента выбора даты
-import './BookingForm.css'; // Импортируем файл стилей BookingForm.css
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './BookingForm.css';
 
 const BookingForm = ({ onClose }) => {
   const [name, setName] = useState('');
@@ -10,41 +10,63 @@ const BookingForm = ({ onClose }) => {
   const [phone, setPhone] = useState('');
   const [governmentNumber, setGovernmentNumber] = useState('');
   const [model, setModel] = useState('');
-  const [startDate, setStartDate] = useState(null); // Состояние для начальной даты
-  const [endDate, setEndDate] = useState(null); // Состояние для конечной даты
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [minimalVoltage, setMinimalVoltage] = useState('');
+  const [selectedTarif, setSelectedTarif] = useState('');
+  const [tarifOptions, setTarifOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchTarifOptions = async () => {
+      try {
+        const response = await axios.get('https://localhost:7290/Tarif/GetAllTarifs');
+        setTarifOptions(response.data);
+      } catch (error) {
+        console.error('Ошибка загрузки тарифов', error);
+      }
+    };
+
+    fetchTarifOptions();
+  }, []);
+
+  const handleTarifChange = (e) => {
+    setSelectedTarif(e.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Отправляем запрос на создание пользователя
-      const response = await axios.post('https://localhost:7290/User/CreateUser', {
+      const userResponse = await axios.post('https://localhost:7290/User/CreateUser', {
         name,
         email,
         phone_Number: phone,
       });
 
-      // Извлекаем id созданного пользователя из ответа сервера
-      const userId = response.data.id;
-      console.log('User Response:', response.data.id);
+      const userId = userResponse.data.id;
+
       // Отправляем запрос на создание машины
-      await axios.post('https://localhost:7290/Car/CreateCar', {
-        userId, // Используем userId для создания машины
+      const carResponse = await axios.post('https://localhost:7290/Car/CreateCar', {
+        userId,
         governmentNumber,
         model,
+        minimalVoltage,
       });
+
+      console.log('Car Response:', carResponse.data);
 
       // Отправляем запрос на создание аренды
       await axios.post('https://localhost:7290/Rent/CreateRent', {
-        start_Date: startDate.toISOString(), // Преобразуем дату в формат ISOString
-        end_Date: endDate.toISOString(), // Преобразуем дату в формат ISOString
+        start_Date: startDate.toISOString(),
+        end_Date: endDate.toISOString(),
         user_Id: userId,
-        car_Id: userId, // Используем userId как car_Id (примерно, можете подтвердить или изменить)
+        car_Id: carResponse.data.id,
+        tarif: selectedTarif,
       });
 
-      // Закрываем форму после успешного бронирования
       onClose();
     } catch (error) {
-      console.error('Ошибка при бронировании', error);
+      console.error('Ошибка при бронировании', error.response.data);
     }
   };
 
@@ -72,6 +94,10 @@ const BookingForm = ({ onClose }) => {
           <input type="text" value={model} onChange={(e) => setModel(e.target.value)} required />
         </label>
         <label>
+          Минимальное напряжение:
+          <input type="number" value={minimalVoltage} onChange={(e) => setMinimalVoltage(e.target.value)} required />
+        </label>
+        <label>
           Дата начала парковки:
           <DatePicker
             selected={startDate}
@@ -92,6 +118,17 @@ const BookingForm = ({ onClose }) => {
             placeholderText="Выберите дату"
             required
           />
+        </label>
+        <label>
+          Выберите тариф:
+          <select value={selectedTarif} onChange={handleTarifChange} required>
+            <option value="">Выберите тариф</option>
+            {tarifOptions.map(tarif => (
+              <option key={tarif.id} value={tarif.name}>
+                {tarif.name}
+              </option>
+            ))}
+          </select>
         </label>
         <button type="submit">Забронировать</button>
       </form>
